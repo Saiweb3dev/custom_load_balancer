@@ -26,18 +26,18 @@ type Config struct {
 // New creates and initializes a new Listener
 func New(cfg Config) (*Listener, error) {
 	l := &Listener{
-		address:     cfg.Address,
-		idleTimeout: cfg.IdleTimeout,
+			address:     cfg.Address,
+			idleTimeout: cfg.IdleTimeout,
 	}
 
 	if cfg.TLSCertFile != "" && cfg.TLSKeyFile != "" {
-		cert, err := tls.LoadX509KeyPair(cfg.TLSCertFile, cfg.TLSKeyFile)
-		if err != nil {
-			return nil, err
-		}
-		l.tlsConfig = &tls.Config{
-			Certificates: []tls.Certificate{cert},
-		}
+			cert, err := tls.LoadX509KeyPair(cfg.TLSCertFile, cfg.TLSKeyFile)
+			if err != nil {
+					return nil, err
+			}
+			l.tlsConfig = &tls.Config{
+					Certificates: []tls.Certificate{cert},
+			}
 	}
 
 	return l, nil
@@ -54,25 +54,25 @@ func (l *Listener) Start() error {
 	var err error
 
 	if l.tlsConfig != nil {
-		listener, err = tls.Listen("tcp", l.address, l.tlsConfig)
+			listener, err = tls.Listen("tcp", l.address, l.tlsConfig)
 	} else {
-		listener, err = net.Listen("tcp", l.address)
+			listener, err = net.Listen("tcp", l.address)
 	}
 
 	if err != nil {
-		return err
+			return err
 	}
 	defer listener.Close()
 
 	log.Printf("Listening on %s", l.address)
 
 	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			log.Printf("Error accepting connection: %v", err)
-			continue
-		}
-		go l.handleConnection(conn)
+			conn, err := listener.Accept()
+			if err != nil {
+					log.Printf("Error accepting connection: %v", err)
+					continue
+			}
+			go l.handleConnection(conn)
 	}
 }
 

@@ -1,7 +1,5 @@
 {
   "listen_addr": ":8080",
-  "tls_cert_file": "/path/to/cert.pem",
-  "tls_key_file": "/path/to/key.pem",
   "pool_max_conns": 200,
   "pool_idle_timeout": "10m",
   "pool_max_lifetime": "1h",
@@ -12,5 +10,12 @@
   "registry_file": "backend_registry.json",
   "balancer_algorithm": "least_connections",
   "log_level": "debug",
-  "log_format": "json"
+  "log_format": "json",
+  "mongo_uri": "mongodb://localhost:27017",
+  "mongo_db": "userdb",
+  "backend_servers": [
+    "localhost:8081",
+    "localhost:8082",
+    "localhost:8083"
+  ]
 }
