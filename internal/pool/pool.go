@@ -5,17 +5,20 @@ import (
 	"sync"
 )
 
+// Pool manages a pool of reusable network connections
 type Pool struct {
 	connections map[string][]net.Conn
 	mu          sync.Mutex
 }
 
+// New creates and initializes a new connection Pool
 func New() *Pool {
 	return &Pool{
 		connections: make(map[string][]net.Conn),
 	}
 }
 
+// Get retrieves a connection from the pool or creates a new one if none are available
 func (p *Pool) Get(address string) net.Conn {
 	p.mu.Lock()
 	defer p.mu.Unlock()
@@ -34,6 +37,7 @@ func (p *Pool) Get(address string) net.Conn {
 	return conn
 }
 
+// Put adds a connection back to the pool for reuse
 func (p *Pool) Put(address string, conn net.Conn) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
